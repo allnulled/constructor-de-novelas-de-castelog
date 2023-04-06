@@ -32,7 +32,7 @@ alCompilar:{ type:Function,
 default:function() {
 }
 },
-modoDeCompilacion:{ type:Object,
+modoDeCompilacion:{ type:String,
 default:function() {try {
 return "calogen";
 } catch(error) {

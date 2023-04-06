@@ -30,7 +30,7 @@ asigno window.NoveloControlDeTextoMaquina como un componente vue2 con nombre "No
         propiedad default como una función.
       },
       modoDeCompilacion: {
-        propiedad type como Object.
+        propiedad type como String.
         propiedad default como una función donde retorno "calogen".
       },
       mostrarBotonDeCompilar: {
