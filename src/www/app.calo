@@ -39,63 +39,63 @@ Ejecutable como documento HTML5
 
 importo api nativa.
 
-creo objetos_de_novelo como una clase que extiende de Array {
+asigno window.objetos_de_novelo como una clase que extiende de Array {
   método constructor con (mundo, ...lo demás en items) donde {
     derivo con (...incluyo items).
     asigno this.mundo como mundo.
   }.
 }.
 
-creo personas_de_novelo como una clase que extiende de Array {
+asigno window.personas_de_novelo como una clase que extiende de Array {
   método constructor con (mundo, ...lo demás en items) donde {
     derivo con (...incluyo items).
     asigno this.mundo como mundo.
   }.
 }.
 
-creo lugares_de_novelo como una clase que extiende de Array {
+asigno window.lugares_de_novelo como una clase que extiende de Array {
   método constructor con (mundo, ...lo demás en items) donde {
     derivo con (...incluyo items).
     asigno this.mundo como mundo.
   }.
 }.
 
-creo sucesos_de_novelo como una clase que extiende de Array {
+asigno window.sucesos_de_novelo como una clase que extiende de Array {
   método constructor con (mundo, ...lo demás en items) donde {
     derivo con (...incluyo items).
     asigno this.mundo como mundo.
   }.
 }.
 
-creo eventos_de_novelo como una clase que extiende de Array {
+asigno window.eventos_de_novelo como una clase que extiende de Array {
   método constructor con (mundo, ...lo demás en items) donde {
     derivo con (...incluyo items).
     asigno this.mundo como mundo.
   }.
 }.
 
-creo variables_de_novelo como una clase que extiende de Array {
+asigno window.variables_de_novelo como una clase que extiende de Array {
   método constructor con (mundo, ...lo demás en items) donde {
     derivo con (...incluyo items).
     asigno this.mundo como mundo.
   }.
 }.
 
-creo funciones_de_novelo como una clase que extiende de Array {
+asigno window.funciones_de_novelo como una clase que extiende de Array {
   método constructor con (mundo, ...lo demás en items) donde {
     derivo con (...incluyo items).
     asigno this.mundo como mundo.
   }.
 }.
 
-creo protagonista_de_novelo como una clase que extiende de Array {
+asigno window.protagonista_de_novelo como una clase que extiende de Array {
   método constructor con (mundo, ...lo demás en items) donde {
     derivo con (...incluyo items).
     asigno this.mundo como mundo.
   }.
 }.
 
-creo mundo_de_novelo como una clase con {
+asigno window.mundo_de_novelo como una clase con {
   método constructor con (juego) donde {
     asigno this.juego como juego.
     asigno this.objetos como un nuevo objetos_de_novelo(this).
@@ -109,7 +109,7 @@ creo mundo_de_novelo como una clase con {
   }.
 }.
 
-creo juego_de_novelo como una clase con {
+asigno window.juego_de_novelo como una clase con {
   método constructor con (componente) donde {
     asigno this.componente como componente.
     asigno this.mundo como un nuevo mundo_de_novelo(this).

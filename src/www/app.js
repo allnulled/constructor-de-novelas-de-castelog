@@ -57597,47 +57597,47 @@ Castelog.variables.operador.exclamacion.ejs.ui.dom.elemento = function(elemento 
 ////////////////////////////////////////// Aquí termina el script de Castelog //
 ////////////////////////////////////////////////////////////////////////////////
 
-const objetos_de_novelo = class extends Array{ constructor( mundo,
+window.objetos_de_novelo = class extends Array{ constructor( mundo,
 ...items ){ super( 
 ...(items ) )
 this.mundo = mundo; }
 };
-const personas_de_novelo = class extends Array{ constructor( mundo,
+window.personas_de_novelo = class extends Array{ constructor( mundo,
 ...items ){ super( 
 ...(items ) )
 this.mundo = mundo; }
 };
-const lugares_de_novelo = class extends Array{ constructor( mundo,
+window.lugares_de_novelo = class extends Array{ constructor( mundo,
 ...items ){ super( 
 ...(items ) )
 this.mundo = mundo; }
 };
-const sucesos_de_novelo = class extends Array{ constructor( mundo,
+window.sucesos_de_novelo = class extends Array{ constructor( mundo,
 ...items ){ super( 
 ...(items ) )
 this.mundo = mundo; }
 };
-const eventos_de_novelo = class extends Array{ constructor( mundo,
+window.eventos_de_novelo = class extends Array{ constructor( mundo,
 ...items ){ super( 
 ...(items ) )
 this.mundo = mundo; }
 };
-const variables_de_novelo = class extends Array{ constructor( mundo,
+window.variables_de_novelo = class extends Array{ constructor( mundo,
 ...items ){ super( 
 ...(items ) )
 this.mundo = mundo; }
 };
-const funciones_de_novelo = class extends Array{ constructor( mundo,
+window.funciones_de_novelo = class extends Array{ constructor( mundo,
 ...items ){ super( 
 ...(items ) )
 this.mundo = mundo; }
 };
-const protagonista_de_novelo = class extends Array{ constructor( mundo,
+window.protagonista_de_novelo = class extends Array{ constructor( mundo,
 ...items ){ super( 
 ...(items ) )
 this.mundo = mundo; }
 };
-const mundo_de_novelo = class { constructor( juego ){ this.juego = juego;
+window.mundo_de_novelo = class { constructor( juego ){ this.juego = juego;
 this.objetos = new objetos_de_novelo( this );
 this.personas = new personas_de_novelo( this );
 this.lugares = new lugares_de_novelo( this );
@@ -57647,7 +57647,7 @@ this.variables = new variables_de_novelo( this );
 this.funciones = new funciones_de_novelo( this );
 this.protagonista = new protagonista_de_novelo( this ); }
 };
-const juego_de_novelo = class { constructor( componente ){ this.componente = componente;
+window.juego_de_novelo = class { constructor( componente ){ this.componente = componente;
 this.mundo = new mundo_de_novelo( this );
 this.objetos = this.mundo.objetos;
 this.personas = this.mundo.personas;
