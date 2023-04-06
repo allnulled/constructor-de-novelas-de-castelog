@@ -13,12 +13,13 @@ Compilable con:
   ./componentes/NoveloVistaEnVivo.calo
 Ejecutable como documento HTML5
     con autor allnulled
-    con nombre historias-gamificadas
+    con nombre app
     con versión 0
 <head>
-    <title>🔱 Historias gamificadas 🔱</title>
+    <title>🔱 Novelas gráficas 🔱</title>
     <meta charset="utf8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./componentes/calo_parser.js"></script>
     <script src="./componentes/calo.js"></script>
     <script src="./componentes/EditorDeObjeto.js"></script>
     <script src="./componentes/ConstructorDeNovelos.js"></script>

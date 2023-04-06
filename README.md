@@ -71,7 +71,7 @@ Así en brainstorming.
 - Hay eventos. Son pares de desencadenante-consecuencia, en formato código para máxima flexibilidad.
 - Hay variables. Son pares de texto-valor, de uso genérico.
 - Hay funciones. Son pares de texto-función, de uso genérico también.
-- Hay sucesos. Son registros de cosas que han ocurrido durante la ejecución del programa. Un histórico de eventos.
+- Hay sucesos. Son registros de cosas que han ocurrido durante la ejecución del programa. Un histórico de eventos. O también dicho, pares de fecha-valor.
 - Hay preferencias. Son pares de texto-valor, se usan a modo de configuraciones personales del usuario.
 - Hay la pantalla de en vivo. Sería la pantalla donde se desarrolla la acción.
 

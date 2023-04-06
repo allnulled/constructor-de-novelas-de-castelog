@@ -1,7 +1,7 @@
 asigno window.NoveloControlDeTextoMaquina como un componente vue2 con nombre "NoveloControlDeTextoMaquina" con plantilla {
   <div class="NoveloControlDeTextoMaquina Component">
     <div style="position:relative;">
-      <textarea class="w_100 texto_maquina" v-model="valor" :placeholder="relleno"></textarea>
+      <textarea class="w_100 texto_maquina" v-model="valor" :placeholder="relleno" ref="entrada_de_texto_maquina"></textarea>
       <div style="position:absolute;top:auto;right:7px;left:auto;bottom:8px;" v-if="mostrarBotonDeCompilar">
         <button class="" v-on:click="alClicarCompilar">
           <span></span>
@@ -9,6 +9,27 @@ asigno window.NoveloControlDeTextoMaquina como un componente vue2 con nombre "No
         </button>
       </div>
     </div>
+    <template v-if="error_actual">
+      <div class="caja_de_error" v-if="!error_actual.location">
+        {{ error_actual.name }}: {{ error_actual.message }}
+      </div>
+      <div class="caja_de_error" v-else>
+        <div>{{ error_actual.name }}:</div>
+        <div>Caracter erróneo: {{ error_actual.location.start.offset }}-{{ error_actual.location.end.offset }}</div>
+        <div>Posición errónea: {{ error_actual.location.start.line }}:{{ error_actual.location.start.column }}-{{ error_actual.location.end.line }}:{{ error_actual.location.end.column }}</div>
+        <div>Se encontró: {{ error_actual.found }}</div>
+        <div>
+          <div>Se presuponía:</div>
+          <ul>
+            <li v-for="expectation, expectation_index in error_actual.expected" v-bind:key="'expectacion_' + expectation_index">
+              <span>{{ expectation }}</span>
+            </li>
+          </ul>
+        </div>
+        <div>Mensaje completo:</div>
+        <div>{{ error_actual.message }}</div>
+      </div>
+    </template>
   </div>
 } con lógica {
   retorno {
@@ -30,7 +51,7 @@ asigno window.NoveloControlDeTextoMaquina como un componente vue2 con nombre "No
         propiedad default como una función.
       },
       modoDeCompilacion: {
-        propiedad type como Object.
+        propiedad type como String.
         propiedad default como una función donde retorno "calogen".
       },
       mostrarBotonDeCompilar: {
@@ -48,6 +69,8 @@ asigno window.NoveloControlDeTextoMaquina como un componente vue2 con nombre "No
     }.
     método data donde {
       retorno {
+        error_actual: undefined,
+        error_actual_temporizador: undefined,
         valor: this.valorInicial
       }.
     }.
@@ -60,13 +83,43 @@ asigno window.NoveloControlDeTextoMaquina como un componente vue2 con nombre "No
         ### ...
     }.
     propiedad methods como {
+      mostrar_error: una función con (error) donde {
+        hago clearTimeout(this.error_actual_temporizador).
+        asigno this.error_actual como error.
+        asigno this.error_actual_temporizador como setTimeout(una lambda donde {
+          asigno this.error_actual como undefined.
+          hago this.$forceUpdate(true).
+        }, 5000).
+        hago this.$forceUpdate(true).
+      },
       alClicarCompilar: una función donde {
+        creo variable salida como undefined.
         si this.modoDeCompilacion es igual que "js" {
+          lanzo un nuevo Error("JavaScript no soportado ahora mismo").
         } pero si this.modoDeCompilacion es igual que "jsgen" {
+          lanzo un nuevo Error("JavaScript no soportado ahora mismo").
         } pero si this.modoDeCompilacion es igual que "calo" {
+          asigno salida como Castelog_parser.parse(this.valor).
         } pero si this.modoDeCompilacion es igual que "calogen" {
-        } y si no lanzo un nuevo Error("Modo de compilación no identificado").
-        hago this.alCompilar(this.valor, this).
+          asigno salida como Castelog_parser.parse("retorno " + this.valor + ".").
+        } y si no {
+          lanzo un nuevo Error("Modo de compilación no identificado").
+        }.
+        hago this.alCompilar(this.valor, this, salida).
+        en proceso seleccionar_entrada {
+          si this.$refs.entrada_de_texto_maquina es tipo indefinido interrumpo proceso seleccionar_entrada.
+          creo elemento como this.$refs.entrada_de_texto_maquina.
+          hago elemento.focus().
+        }.
+      } en errores {
+        imprimo error.
+        en proceso seleccionar_error donde si error.location {
+          si this.$refs.entrada_de_texto_maquina es tipo indefinido interrumpo proceso seleccionar_error.
+          creo elemento como this.$refs.entrada_de_texto_maquina.
+          hago elemento.focus().
+          hago elemento.setSelectionRange(error.location.start.offset, error.location.end.offset).
+        }.
+        hago this.mostrar_error(error).
       }
     }.
   }.

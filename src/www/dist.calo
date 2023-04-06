@@ -1,0 +1,165 @@
+Compilable con:
+  ./componentes/calo.calo
+  ./componentes/ConstructorDeNovelos.calo
+  ./componentes/EditorDeObjeto.calo
+  ./componentes/NoveloControlDeListaDeLugares.calo
+  ./componentes/NoveloControlDeListaDeTextos.calo
+  ./componentes/NoveloControlDeSeleccionDeLugar.calo
+  ./componentes/NoveloControlDeSeleccionDePrototipo.calo
+  ./componentes/NoveloControlDeTextoLargo.calo
+  ./componentes/NoveloControlDeTextoMaquina.calo
+  ./componentes/NoveloControlDeTextoSimple.calo
+  ./componentes/NoveloEditorDeObjeto.calo
+  ./componentes/NoveloVistaEnVivo.calo
+Empaquetable con:
+  ./componentes/calo.js
+  ./componentes/calo_parser.js
+  ./componentes/EditorDeObjeto.js
+  ./componentes/ConstructorDeNovelos.js
+  ./componentes/EditorDeObjeto.js
+  ./componentes/NoveloControlDeListaDeLugares.js
+  ./componentes/NoveloControlDeListaDeTextos.js
+  ./componentes/NoveloControlDeSeleccionDeLugar.js
+  ./componentes/NoveloControlDeSeleccionDePrototipo.js
+  ./componentes/NoveloControlDeTextoLargo.js
+  ./componentes/NoveloControlDeTextoMaquina.js
+  ./componentes/NoveloControlDeTextoSimple.js
+  ./componentes/NoveloEditorDeObjeto.js
+  ./componentes/NoveloVistaEnVivo.js
+Ejecutable como documento HTML5
+    con autor allnulled
+    con nombre dist
+    con versión 0
+<head>
+    <title>🔱 Novelas gráficas 🔱</title>
+    <meta charset="utf8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./componentes/estilos.css" />
+</head>
+<body><div id="app"></div></body>.
+
+importo api nativa.
+
+creo objetos_de_novelo como una clase que extiende de Array {
+  método constructor con (mundo, ...lo demás en items) donde {
+    derivo con (...incluyo items).
+    asigno this.mundo como mundo.
+  }.
+}.
+
+creo personas_de_novelo como una clase que extiende de Array {
+  método constructor con (mundo, ...lo demás en items) donde {
+    derivo con (...incluyo items).
+    asigno this.mundo como mundo.
+  }.
+}.
+
+creo lugares_de_novelo como una clase que extiende de Array {
+  método constructor con (mundo, ...lo demás en items) donde {
+    derivo con (...incluyo items).
+    asigno this.mundo como mundo.
+  }.
+}.
+
+creo sucesos_de_novelo como una clase que extiende de Array {
+  método constructor con (mundo, ...lo demás en items) donde {
+    derivo con (...incluyo items).
+    asigno this.mundo como mundo.
+  }.
+}.
+
+creo eventos_de_novelo como una clase que extiende de Array {
+  método constructor con (mundo, ...lo demás en items) donde {
+    derivo con (...incluyo items).
+    asigno this.mundo como mundo.
+  }.
+}.
+
+creo variables_de_novelo como una clase que extiende de Array {
+  método constructor con (mundo, ...lo demás en items) donde {
+    derivo con (...incluyo items).
+    asigno this.mundo como mundo.
+  }.
+}.
+
+creo funciones_de_novelo como una clase que extiende de Array {
+  método constructor con (mundo, ...lo demás en items) donde {
+    derivo con (...incluyo items).
+    asigno this.mundo como mundo.
+  }.
+}.
+
+creo protagonista_de_novelo como una clase que extiende de Array {
+  método constructor con (mundo, ...lo demás en items) donde {
+    derivo con (...incluyo items).
+    asigno this.mundo como mundo.
+  }.
+}.
+
+creo mundo_de_novelo como una clase con {
+  método constructor con (juego) donde {
+    asigno this.juego como juego.
+    asigno this.objetos como un nuevo objetos_de_novelo(this).
+    asigno this.personas como un nuevo personas_de_novelo(this).
+    asigno this.lugares como un nuevo lugares_de_novelo(this).
+    asigno this.sucesos como un nuevo sucesos_de_novelo(this).
+    asigno this.eventos como un nuevo eventos_de_novelo(this).
+    asigno this.variables como un nuevo variables_de_novelo(this).
+    asigno this.funciones como un nuevo funciones_de_novelo(this).
+    asigno this.protagonista como un nuevo protagonista_de_novelo(this).
+  }.
+}.
+
+creo juego_de_novelo como una clase con {
+  método constructor con (componente) donde {
+    asigno this.componente como componente.
+    asigno this.mundo como un nuevo mundo_de_novelo(this).
+    asigno this.objetos como this.mundo.objetos.
+    asigno this.personas como this.mundo.personas.
+    asigno this.lugares como this.mundo.lugares.
+    asigno this.sucesos como this.mundo.sucesos.
+    asigno this.eventos como this.mundo.eventos.
+    asigno this.variables como this.mundo.variables.
+    asigno this.funciones como this.mundo.funciones.
+    asigno this.protagonista como this.mundo.protagonista.
+  }.
+}.
+
+creo PaginaDeInicio como un componente vue2 con nombre "PaginaDeInicio" con plantilla {
+  <div class="PaginaDeInicio Component">
+    <ConstructorDeNovelos />
+  </div>
+}.
+
+creo App como una aplicación vue2 con nombre "App" con rutas [{
+    propiedad path como "/".
+    propiedad name como "Home".
+    propiedad component como PaginaDeInicio.
+    propiedad props como {}.
+}] con traducciones {
+    propiedad es como {}.
+    propiedad en como {}.
+    propiedad ca como {}.
+} con plantilla {
+  <div class="App Component Castelog-app">
+    <router-view></router-view>
+  </div>
+} con estilos {
+    html {}
+    body {}
+    .Component {}
+    .App {}
+} con lógica {
+  retorno {
+    método data donde {
+      debugo "App.data".
+      retorno {
+        
+      }.
+    }.
+    propiedad methods como {}.
+    propiedad watch como {}.
+    método beforeMount donde {}.
+    método mounted donde {}.
+  }.
+} montada en "#app".

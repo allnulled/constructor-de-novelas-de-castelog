@@ -244,7 +244,7 @@ window.EditorDeObjeto = Castelog.metodos.un_componente_vue2("EditorDeObjeto",
  + "                        :raiz=\"editor_mismo\""
  + "                        :al-cambiar=\"v => { raiz[almacen_id][item_index].script = v; }\""
  + "                        :valor-inicial=\"raiz[almacen_id][item_index].script\""
- + "                        :relleno=\"`asigno juego\\n  .${almacen}\\n  .\\$obtener_por_nombre(${JSON.stringify(raiz[almacen_id][item_index].nombre)})\\n  .script\\ncomo un hecho con (\\n  juego,\\n  mundo,\\n  personas,\\n  lugares,\\n  objetos,\\n  prototipos,\\n  sucesos,\\n  variables,\\n  funciones\\n) donde {\\n  @POR-INYECTAR: retorno \\${*}.\\n}.`\""
+ + "                        :relleno=\"`una función con (componente, printar) donde {\\n  retorno {*}.\\n  ### donde {*} son las propiedades del objeto\\n  ### que extenderán a las genéricas.\\n}.bind(objeto).`\""
  + "                      />"
  + "                    </div>"
  + "                  </details>"

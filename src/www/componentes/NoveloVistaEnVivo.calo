@@ -56,23 +56,32 @@ creo NoveloVistaEnVivo como un componente vue2 con nombre "NoveloVistaEnVivo" co
                     <span class="texto_de_objeto_1">[{{ typeof prop }}]</span>
                     <span class="texto_de_objeto_2">{{ prop_index }}</span>
                     <span class="texto_de_objeto_3"> = </span>
-                    <span class="texto_de_objeto_4">{{ JSON.stringify(prop) }}</span>
+                    <span class="texto_de_objeto_4" v-if="prop.length < 20">{{ JSON.stringify(prop) }}</span>
+                    <span class="texto_de_objeto_4" v-else>{{ JSON.stringify(prop).length }}B</span>
                   </li>
                 </template>
                 <template v-for="prop, prop_index in objeto">
-                  <li v-if="no_esta_prohibida(prop_index) && typeof prop === 'object'" v-bind:key="'en-vivo-objeto-' + objeto_index + '-prop-object-' + prop_index">
+                  <li v-if="no_esta_prohibida(prop_index) && Array.isArray(prop)" v-bind:key="'en-vivo-objeto-' + objeto_index + '-prop-object-' + prop_index">
+                    <span class="texto_de_objeto_1">[List]</span>
+                    <span class="texto_de_objeto_2">{{ prop_index }}</span>
+                    <span class="texto_de_objeto_3"> = </span>
+                    <span class="texto_de_objeto_4">{{ prop.length }} ítems en {{ JSON.stringify(prop).length }}B</span>
+                  </li>
+                </template>
+                <template v-for="prop, prop_index in objeto">
+                  <li v-if="no_esta_prohibida(prop_index) && (typeof prop === 'object') && (!Array.isArray(prop))" v-bind:key="'en-vivo-objeto-' + objeto_index + '-prop-object-' + prop_index">
                     <span class="texto_de_objeto_1">[{{ typeof prop }}]</span>
                     <span class="texto_de_objeto_2">{{ prop_index }}</span>
                     <span class="texto_de_objeto_3"> = </span>
-                    <span class="texto_de_objeto_4">{{ JSON.stringify(prop) }}</span>
+                    <span class="texto_de_objeto_4">{{ Object.keys(prop).length }} propiedades en {{ JSON.stringify(prop).length }}B</span>
                   </li>
                 </template>
                 <template v-for="prop, prop_index in objeto">
                   <li v-if="no_esta_prohibida(prop_index) && typeof prop === 'function'" v-bind:key="'en-vivo-objeto-' + objeto_index + '-prop-function-' + prop_index">
                     <span class="texto_de_objeto_1">[{{ typeof prop }}]</span>
-                    <span class="texto_de_objeto_2">{{ prop_index }}</span>
+                    <span class="texto_como_link" v-on:click="() => ejecutar_accion(prop_index, objeto, objeto_index)">{{ prop_index }}</span>
                     <span class="texto_de_objeto_3"> = </span>
-                    <span class="texto_de_objeto_4">{{ JSON.stringify(prop.toString()) }}</span>
+                    <span class="texto_de_objeto_4">{{ JSON.stringify(prop.toString()).length }}B</span>
                   </li>
                 </template>
               </ol>
@@ -99,6 +108,11 @@ creo NoveloVistaEnVivo como un componente vue2 con nombre "NoveloVistaEnVivo" co
         </div>
       </div>
     </div>
+    <div>
+      <div v-for="mensaje, mensaje_index in mensajes_de_salida" v-bind:key="'mensaje-de-salida-numero-' + mensaje_index">
+        <div>{{ mensaje }}</div>
+      </div>
+    </div>
   </div>
 } con lógica {
   retorno {
@@ -109,6 +123,7 @@ creo NoveloVistaEnVivo como un componente vue2 con nombre "NoveloVistaEnVivo" co
       }
     }.
     método data donde {
+      debugo "NoveloVistaEnVivo.data".
       retorno {
         protagonista: undefined,
         localizacion: undefined,
@@ -116,7 +131,9 @@ creo NoveloVistaEnVivo como un componente vue2 con nombre "NoveloVistaEnVivo" co
         objetos: undefined,
         esta_cargado: false,
         juego: undefined,
+        mensajes_de_salida: [],
         error_actual: undefined,
+        error_actual_temporizador: undefined,
         propiedades_prohibidas: [
           "nombre",
           "esta_mostrando_detalles_en_vivo",
@@ -127,19 +144,23 @@ creo NoveloVistaEnVivo como un componente vue2 con nombre "NoveloVistaEnVivo" co
     }.
     propiedad methods como {
       no_esta_prohibida: una función con (indice) donde {
-        retorno indice no está contenido en ["nombre","localizacion","esta_mostrando_detalles","esta_mostrando_detalles_en_vivo"].
+        debugo "NoveloVistaEnVivo.methods.no_esta_prohibida".
+        retorno indice no está contenido en ["nombre","localizacion","esta_mostrando_detalles","esta_mostrando_detalles_en_vivo","script"].
       },
       alternar_estado_de_objeto: una función con (objeto) donde {
+        debugo "NoveloVistaEnVivo.methods.alternar_estado_de_objeto".
         asigno objeto.esta_mostrando_detalles_en_vivo como no objeto.esta_mostrando_detalles_en_vivo.
         hago this.$forceUpdate(true).
       },
       aplicar_salida: una función con (salida) donde {
+        debugo "NoveloVistaEnVivo.methods.aplicar_salidas".
         hago this.cambiar_protagonista({
           localizacion: salida.nombre
         }).
         hago this.cargar_todo(true).
       },
       calcular_salidas: una función con () donde {
+        debugo "NoveloVistaEnVivo.methods.calcular_salidas".
         creo variable salidas_actuales como [].
         si this.protagonista {
             creo localizacion_dato como (this.raiz.lugares_disponibles filtrado donde retorno this.protagonista.localizacion es igual que item.nombre)[0].
@@ -153,19 +174,39 @@ creo NoveloVistaEnVivo como un componente vue2 con nombre "NoveloVistaEnVivo" co
         retorno salidas_actuales.
       },
       calcular_objetos: una función con () donde {
+        debugo "NoveloVistaEnVivo.methods.calcular_objetos".
         creo variable objetos_actuales como [].
         si this.protagonista {
             creo localizacion_objetos como this.raiz.objetos_disponibles.filter(una lambda con (item) donde retorno this.protagonista.localizacion es igual que item.localizacion).
             si localizacion_objetos.length {
               asigno objetos_actuales como objetos_actuales concatenado por localizacion_objetos.
             }.
+            desde 0 hasta objetos_actuales.length {
+              creo objeto_actual como objetos_actuales[index].
+              si (objeto_actual.script es tipo texto) y (objeto_actual.script.length) {
+                intento {
+                  creo codigo_calogen como "retorno " + objeto_actual.script + ".".
+                  creo variable resultado_js como Castelog_parser.parse(codigo_calogen).
+                  si resultado_js es tipo texto y resultado_js.length {
+                    asigno resultado_js como "(" + resultado_js.trim().replace(una nueva RegExp("^return *","g"), "").replace(una nueva RegExp(" *;$","g"), "") + ")".
+                    creo resultado como eval(resultado_js).
+                    asigno objetos_actuales[index] como {} extendido por objeto_actual también extendido por resultado.
+                  }.
+                } en errores {
+                  hago this.mostrar_error(error).
+                  lanzo error.
+                }.
+              }.
+            }.
         }.
         retorno objetos_actuales.
       },
       obtener_protagonista: una función donde {
+        debugo "NoveloVistaEnVivo.methods.obtener_protagonista".
         retorno (this.raiz.personas_disponibles filtrado donde retorno item.nombre.toLowerCase() es igual que "protagonista")[0].
       },
       cambiar_protagonista: una función (datos) donde {
+        debugo "NoveloVistaEnVivo.methods.cambiar_protagonista".
         desde 0 hasta this.raiz.personas_disponibles.length {
           creo persona como this.raiz.personas_disponibles[index].
           si persona.nombre.toLowerCase() es igual que "protagonista" {
@@ -174,6 +215,7 @@ creo NoveloVistaEnVivo como un componente vue2 con nombre "NoveloVistaEnVivo" co
         }.
       },
       cargar_todo: una función con (refrescar_interfaz o en su defecto false) donde {
+        debugo "NoveloVistaEnVivo.methods.cargar_todo".
         asigno this.esta_cargado como false.
         asigno this.protagonista como this.obtener_protagonista().
         si this.protagonista es tipo indefinido lanzo un nuevo Error("El personaje «protagonista» no está definido").
@@ -184,10 +226,30 @@ creo NoveloVistaEnVivo como un componente vue2 con nombre "NoveloVistaEnVivo" co
         asigno this.esta_cargado como true.
         si refrescar_interfaz hago this.$forceUpdate(true).
       },
+      mostrar_por_salida: una función con (mensaje) donde {
+        debugo "NoveloVistaEnVivo.methods.mostrar_por_salida".
+        prependizo mensaje en this.mensajes_de_salida.
+        hago this.$forceUpdate(true).
+      },
+      ejecutar_accion: una función asíncrona con (funcion_id, objeto, objeto_index) donde {
+        debugo "NoveloVistaEnVivo.methods.ejecutar_accion".
+        @POR-HACER...
+        imprimo " [*] Función ID: " + funcion_id.
+        imprimo " [*] Objeto:" + (objeto textualizado).
+        imprimo " [*] Objeto índice:" + objeto_index.
+        creo resultado como asíncronamente objeto[funcion_id].call(objeto, this, this.mostrar_por_salida.bind(this), objeto_index).
+        imprimo " [*] Resultado de función: ".
+        imprimo resultado.
+      } en errores {
+        imprimo "Error al ejecutar la acción:".
+        imprimo error.
+        hago this.mostrar_error(error).
+      },
       mostrar_error: una función con (error) donde {
+        debugo "NoveloVistaEnVivo.methods.mostrar_error".
         hago clearTimeout(this.error_actual_temporizador).
         asigno this.error_actual como error.
-        asigno error_actual_temporizador como setTimeout(una lambda donde {
+        asigno this.error_actual_temporizador como setTimeout(una lambda donde {
           asigno this.error_actual como undefined.
           hago this.$forceUpdate(true).
         }, 5000).
@@ -197,8 +259,10 @@ creo NoveloVistaEnVivo como un componente vue2 con nombre "NoveloVistaEnVivo" co
     propiedad watch como {
     }.
     método mounted donde {
+        debugo "NoveloVistaEnVivo.mounted".
       hago this.cargar_todo().
     } en errores {
+      imprimo error.
       hago this.mostrar_error(error).
       asigno this.esta_cargado como true.
     }.
