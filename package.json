@@ -1,0 +1,12 @@
+{
+  "name": "novelo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "novelo.js",
+  "scripts": {
+    "test": "npx http-server -c-1 src/www"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
