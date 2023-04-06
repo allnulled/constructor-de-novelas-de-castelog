@@ -159,7 +159,7 @@ asigno window.ConstructorDeNovelos como un componente vue2 con nombre "Construct
       }.
       asigno data.claves_persistibles como un conjunto de claves del objeto data.
       hago data extendido por {
-        en_vivo_datos: un nuevo juego_de_novelo()
+        en_vivo_datos: un nuevo this.$window.juego_de_novelo()
       }.
       hago this extendido por this.cargar(false).
       retorno data.

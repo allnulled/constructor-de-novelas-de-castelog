@@ -208,7 +208,7 @@ preferencias_disponibles:this.preferenciasDisponibles,
 pestanya_seleccionada:this.pestanyaSeleccionada
 };
 data.claves_persistibles = Object.keys(data);
-Object.assign(data, { en_vivo_datos:new juego_de_novelo(  )
+Object.assign(data, { en_vivo_datos:new this.$window.juego_de_novelo(  )
 } );
 Object.assign(this, this.cargar( false ) );
 return data;
