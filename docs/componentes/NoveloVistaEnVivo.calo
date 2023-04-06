@@ -1,0 +1,206 @@
+creo NoveloVistaEnVivo como un componente vue2 con nombre "NoveloVistaEnVivo" con plantilla {
+  <div class="NoveloVistaEnVivo Component">
+    <div v-if="error_actual" class="caja_de_error">
+      <div>{{ error_actual.name }}: {{ error_actual.message }}</div>
+    </div>
+    <div v-if="!esta_cargado">
+      <div role="progressbar" class="animate">
+        <div style="width: 100%"></div>
+      </div>
+    </div>
+    <div v-else>
+      <button class="w_100" v-on:click="() => cargar_todo(true)">Recargar</button>
+      <div v-if="!protagonista">
+        No existe ningún protagonista. Crea una persona de nombre «protagonista» para continuar.
+      </div>
+      <div v-else-if="!localizacion">
+        El protagonista no tiene localización asignada. Asígnale una para continuar.
+      </div>
+      <div v-else>
+        <div v-if="objetos && objetos.length">
+          <span>
+            <span>En </span>
+            <span class="texto_como_link">{{ localizacion }}</span>
+            <span> hay:</span>
+          </span>
+          <ol>
+            <li v-for="objeto, objeto_index in objetos" v-bind:key="'en-vivo-objeto-' + objeto_index">
+              <div class="texto_como_link" v-on:click="() => alternar_estado_de_objeto(objeto)">{{ objeto.nombre }}</div>
+              <ol>
+                <template v-for="prop, prop_index in objeto">
+                  <li v-if="no_esta_prohibida(prop_index) && typeof prop === 'undefined'" v-bind:key="'en-vivo-objeto-' + objeto_index + '-prop-undefined-' + prop_index">
+                    <span class="texto_de_objeto_1">[{{ typeof prop }}]</span>
+                    <span class="texto_de_objeto_2">{{ prop_index }}</span>
+                    <span class="texto_de_objeto_3"> = </span>
+                    <span class="texto_de_objeto_4">{{ JSON.stringify(prop) }}</span>
+                  </li>
+                </template>
+                <template v-for="prop, prop_index in objeto">
+                  <li v-if="no_esta_prohibida(prop_index) && typeof prop === 'boolean'" v-bind:key="'en-vivo-objeto-' + objeto_index + '-prop-boolean-' + prop_index">
+                    <span class="texto_de_objeto_1">[{{ typeof prop }}]</span>
+                    <span class="texto_de_objeto_2">{{ prop_index }}</span>
+                    <span class="texto_de_objeto_3"> = </span>
+                    <span class="texto_de_objeto_4">{{ JSON.stringify(prop) }}</span>
+                  </li>
+                </template>
+                <template v-for="prop, prop_index in objeto">
+                  <li v-if="no_esta_prohibida(prop_index) && typeof prop === 'number'" v-bind:key="'en-vivo-objeto-' + objeto_index + '-prop-number-' + prop_index">
+                    <span class="texto_de_objeto_1">[{{ typeof prop }}]</span>
+                    <span class="texto_de_objeto_2">{{ prop_index }}</span>
+                    <span class="texto_de_objeto_3"> = </span>
+                    <span class="texto_de_objeto_4">{{ JSON.stringify(prop) }}</span>
+                  </li>
+                </template>
+                <template v-for="prop, prop_index in objeto">
+                  <li v-if="no_esta_prohibida(prop_index) && typeof prop === 'string'" v-bind:key="'en-vivo-objeto-' + objeto_index + '-prop-string-' + prop_index">
+                    <span class="texto_de_objeto_1">[{{ typeof prop }}]</span>
+                    <span class="texto_de_objeto_2">{{ prop_index }}</span>
+                    <span class="texto_de_objeto_3"> = </span>
+                    <span class="texto_de_objeto_4">{{ JSON.stringify(prop) }}</span>
+                  </li>
+                </template>
+                <template v-for="prop, prop_index in objeto">
+                  <li v-if="no_esta_prohibida(prop_index) && typeof prop === 'object'" v-bind:key="'en-vivo-objeto-' + objeto_index + '-prop-object-' + prop_index">
+                    <span class="texto_de_objeto_1">[{{ typeof prop }}]</span>
+                    <span class="texto_de_objeto_2">{{ prop_index }}</span>
+                    <span class="texto_de_objeto_3"> = </span>
+                    <span class="texto_de_objeto_4">{{ JSON.stringify(prop) }}</span>
+                  </li>
+                </template>
+                <template v-for="prop, prop_index in objeto">
+                  <li v-if="no_esta_prohibida(prop_index) && typeof prop === 'function'" v-bind:key="'en-vivo-objeto-' + objeto_index + '-prop-function-' + prop_index">
+                    <span class="texto_de_objeto_1">[{{ typeof prop }}]</span>
+                    <span class="texto_de_objeto_2">{{ prop_index }}</span>
+                    <span class="texto_de_objeto_3"> = </span>
+                    <span class="texto_de_objeto_4">{{ JSON.stringify(prop.toString()) }}</span>
+                  </li>
+                </template>
+              </ol>
+            </li>
+          </ol>
+        </div>
+        <div v-else>
+          <span>
+            <span>En </span>
+            <span class="texto_como_link">{{ localizacion }}</span>
+            <span> no hay nada.</span>
+          </span>
+        </div>
+        <div v-if="salidas && salidas.length">
+          <span>Puedes salir por:</span>
+          <ol>
+            <li v-for="salida, salida_index in salidas" v-bind:key="'en-vivo-salida-' + salida_index">
+              <span class="texto_como_link" v-on:click="() => aplicar_salida(salida)">{{ salida.nombre }}</span>
+            </li>
+          </ol>
+        </div>
+        <div v-else>
+          <span>No hay salidas.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+} con lógica {
+  retorno {
+    propiedad props como {
+      raiz: {
+        propiedad type como Object.
+        propiedad required como true.
+      }
+    }.
+    método data donde {
+      retorno {
+        protagonista: undefined,
+        localizacion: undefined,
+        salidas: undefined,
+        objetos: undefined,
+        esta_cargado: false,
+        juego: undefined,
+        error_actual: undefined,
+        propiedades_prohibidas: [
+          "nombre",
+          "esta_mostrando_detalles_en_vivo",
+          "esta_mostrando_detalles",
+          "localizacion"
+        ]
+      }.
+    }.
+    propiedad methods como {
+      no_esta_prohibida: una función con (indice) donde {
+        retorno indice no está contenido en ["nombre","localizacion","esta_mostrando_detalles","esta_mostrando_detalles_en_vivo"].
+      },
+      alternar_estado_de_objeto: una función con (objeto) donde {
+        asigno objeto.esta_mostrando_detalles_en_vivo como no objeto.esta_mostrando_detalles_en_vivo.
+        hago this.$forceUpdate(true).
+      },
+      aplicar_salida: una función con (salida) donde {
+        hago this.cambiar_protagonista({
+          localizacion: salida.nombre
+        }).
+        hago this.cargar_todo(true).
+      },
+      calcular_salidas: una función con () donde {
+        creo variable salidas_actuales como [].
+        si this.protagonista {
+            creo localizacion_dato como (this.raiz.lugares_disponibles filtrado donde retorno this.protagonista.localizacion es igual que item.nombre)[0].
+            si localizacion_dato es tipo indefinido retorno [].
+            si localizacion_dato.salidas es tipo indefinido retorno [].
+            creo localizacion_salidas como this.raiz.lugares_disponibles filtrado donde retorno localizacion_dato.salidas contiene valor item.nombre.
+            si localizacion_dato es tipo objeto {
+                asigno salidas_actuales como salidas_actuales concatenado por localizacion_salidas.
+            }.
+        }.
+        retorno salidas_actuales.
+      },
+      calcular_objetos: una función con () donde {
+        creo variable objetos_actuales como [].
+        si this.protagonista {
+            creo localizacion_objetos como this.raiz.objetos_disponibles.filter(una lambda con (item) donde retorno this.protagonista.localizacion es igual que item.localizacion).
+            si localizacion_objetos.length {
+              asigno objetos_actuales como objetos_actuales concatenado por localizacion_objetos.
+            }.
+        }.
+        retorno objetos_actuales.
+      },
+      obtener_protagonista: una función donde {
+        retorno (this.raiz.personas_disponibles filtrado donde retorno item.nombre.toLowerCase() es igual que "protagonista")[0].
+      },
+      cambiar_protagonista: una función (datos) donde {
+        desde 0 hasta this.raiz.personas_disponibles.length {
+          creo persona como this.raiz.personas_disponibles[index].
+          si persona.nombre.toLowerCase() es igual que "protagonista" {
+            hago this.raiz.personas_disponibles[index] extendido por datos.
+          }.
+        }.
+      },
+      cargar_todo: una función con (refrescar_interfaz o en su defecto false) donde {
+        asigno this.esta_cargado como false.
+        asigno this.protagonista como this.obtener_protagonista().
+        si this.protagonista es tipo indefinido lanzo un nuevo Error("El personaje «protagonista» no está definido").
+        asigno this.localizacion como this.protagonista.localizacion.
+        si this.localizacion es tipo indefinido lanzo un nuevo Error("El personaje «protagonista» no tiene localizacion definida").
+        asigno this.salidas como this.calcular_salidas().
+        asigno this.objetos como this.calcular_objetos().
+        asigno this.esta_cargado como true.
+        si refrescar_interfaz hago this.$forceUpdate(true).
+      },
+      mostrar_error: una función con (error) donde {
+        hago clearTimeout(this.error_actual_temporizador).
+        asigno this.error_actual como error.
+        asigno error_actual_temporizador como setTimeout(una lambda donde {
+          asigno this.error_actual como undefined.
+          hago this.$forceUpdate(true).
+        }, 5000).
+        hago this.$forceUpdate(true).
+      }
+    }.
+    propiedad watch como {
+    }.
+    método mounted donde {
+      hago this.cargar_todo().
+    } en errores {
+      hago this.mostrar_error(error).
+      asigno this.esta_cargado como true.
+    }.
+  }.
+}.

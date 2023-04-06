@@ -1,0 +1,45 @@
+asigno window.NoveloControlDeTextoSimple como un componente vue2 con nombre "NoveloControlDeTextoSimple" con plantilla {
+  <div class="NoveloControlDeTextoSimple Component">
+    <div>
+      <input class="w_100" type="text" v-model="valor" :placeholder="relleno" />
+    </div>
+  </div>
+} con lógica {
+  retorno {
+    propiedad props como {
+      uuid: {
+        propiedad type como String.
+        propiedad default como una función donde retorno un texto aleatorio de 10 caracteres.
+      },
+      raiz: {
+        propiedad type como Object.
+        propiedad required como true.
+      },
+      alCambiar: {
+        propiedad type como Function.
+        propiedad default como una función.
+      },
+      valorInicial: {
+        propiedad type como String.
+        propiedad default como una función donde retorno "".
+      },
+      relleno: {
+        propiedad type como String.
+        propiedad default como una función donde retorno "Texto aquí".
+      }
+    }.
+    método data donde {
+      retorno {
+        valor: this.valorInicial
+      }.
+    }.
+    propiedad watch como {
+      método valor con (nuevo_valor) donde {
+        si this.alCambiar es tipo función hago this.alCambiar(nuevo_valor, this).
+      }.
+    }.
+    método mounted donde {
+        ### ...
+    }.
+  }.
+}.
